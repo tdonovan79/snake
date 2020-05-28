@@ -1,6 +1,7 @@
 import React from 'react'
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import {startStyle} from '../styles/StartStyle.js'
 
 const goToGameScreen = () => {
     Actions.GameScreen()
@@ -8,8 +9,11 @@ const goToGameScreen = () => {
 
 export default function Start() {
     return (
-        <TouchableOpacity style={{ margin: 128 }} onPress={goToGameScreen}>
-            <Text>Start</Text>
-        </TouchableOpacity>
+        <View style={startStyle.start}>
+            <Text style={startStyle.title}>Snake</Text>
+            <TouchableOpacity onPress={goToGameScreen}>
+                <Text style={startStyle.button}>Start</Text>
+            </TouchableOpacity>
+        </View>
     )
 }

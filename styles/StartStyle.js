@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native'
-const startStyle = StyleSheet.create({
+const StartStyle = StyleSheet.create({
     start: {
         flex: 1, 
         alignItems: 'center',
@@ -21,4 +21,4 @@ const startStyle = StyleSheet.create({
         fontSize: 70
     }
 });
-export {startStyle}
+export {StartStyle}

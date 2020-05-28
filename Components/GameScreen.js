@@ -1,8 +1,14 @@
 import React from 'react'
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { View, Text } from 'react-native'
+import {GameScreenStyle} from '../styles/GameScreenStyle.js'
+import Board from './Board.js'
+
+
 
 export default function GameScreen() {
     return (
-        <Text>Board</Text>
+        <View style={GameScreenStyle.container}>
+            <Board/>
+        </View>
     )
 }

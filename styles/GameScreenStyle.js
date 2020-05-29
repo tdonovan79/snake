@@ -5,9 +5,6 @@ const GameScreenStyle = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center', 
-    },
-    board: {
-        
     }
 });
 export {GameScreenStyle}

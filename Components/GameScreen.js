@@ -1,12 +1,16 @@
-import React, {useState, useEffect} from 'react'
-import { View, Button } from 'react-native'
-import {GameScreenStyle} from '../styles/GameScreenStyle.js'
+import React, { useState, useEffect } from 'react'
+import useInterval from 'react-useinterval';
+import { View, TouchableOpacity, Text } from 'react-native'
+import { GameScreenStyle } from '../styles/GameScreenStyle.js'
 import Board from './Board.js'
 
 
 export default function GameScreen() {
     const [snake, setSnake] = useState([])
     const [food, setFood] = useState([])
+    const [showButton, setShowButton] = useState(true)
+    const [direction, setDirection] = useState(3) //0 - left 1 - up 2 - right 3 - down
+    const [endGame, setEndGame] = useState(false)
 
     useEffect(() => {
         snakeStart()
@@ -21,14 +25,62 @@ export default function GameScreen() {
     //change square to new location
     const changeSquare = () => {
         let row = Math.floor(Math.random() * 20), column = Math.floor(Math.random() * 20)
-        while(snake.includes([row, column])){
+        while (snake.includes([row, column])) {
             row = Math.floor(Math.random() * 20), column = Math.floor(Math.random() * 20)
         }
         setFood([row, column])
     }
+    //start motion
+    const startMotion = () => {
+        if(!showButton){
+            checkDirection()
+            checkHead()
+        }
+        // setSnake([3, 3])
+    }
+    //start game
+    const startGame = () => {
+        setShowButton(!showButton)
+        // checkDirection()
+    }
+    useInterval(startMotion, 2000)
+    //check direction and move snake based on that
+    function checkDirection() {
+        let newSnake
+        switch (direction) {
+            case (0):
+                newSnake = [[snake[0][0], snake[0][1] - 1]]
+                setSnake(newSnake)
+                break
+            case (1):
+                newSnake = [[snake[0][0] - 1, snake[0][1]]]
+                setSnake(newSnake)
+                break
+            case (2):
+                newSnake = [[snake[0][0], snake[0][1] + 1]]
+                setSnake(newSnake)
+                break
+            case (3):
+                newSnake = [[snake[0][0] + 1, snake[0][1]]]
+                console.log(newSnake, "newSnake", snake, "snake")
+                setSnake(newSnake)
+                break
+        }
+    }
+    //
+    const checkHead = () => {
+
+    }
     return (
         <View style={GameScreenStyle.container}>
-            <Board food = {food} snake = {snake}/>
+            {showButton ?
+                <TouchableOpacity onPress={startGame}>
+                    <Text style={GameScreenStyle.button}>Start Game</Text>
+                </TouchableOpacity>
+                :
+                <Text></Text>
+            }
+            <Board food={food} snake={snake} />
         </View>
     )
 }

@@ -12,7 +12,7 @@ export default function Start() {
         <View style={StartStyle.start}>
             <Text style={StartStyle.title}>Snake</Text>
             <TouchableOpacity onPress={goToGameScreen}>
-                <Text style={StartStyle.button}>Start</Text>
+                <Text style={StartStyle.button}>Play</Text>
             </TouchableOpacity>
         </View>
     )

@@ -7,7 +7,6 @@ export default function Board({food, snake, reRender}) {
     const [board, setBoard] = useState([])
 
     useEffect(() => {
-        console.log(snake, "board")
         let newBoard = new Array(20)
         //generate board with food
         for (let i = 0; i < newBoard.length; i++) {

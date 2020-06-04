@@ -3,7 +3,7 @@ import useInterval from 'react-useinterval';
 import { View, TouchableOpacity, Text, Button } from 'react-native'
 import { GameScreenStyle } from '../styles/GameScreenStyle.js'
 import Board from './Board.js'
-import {ButtonStyle} from '../styles/ButtonStyle.js'
+import { ButtonStyle } from '../styles/ButtonStyle.js'
 
 
 export default function GameScreen() {
@@ -34,86 +34,125 @@ export default function GameScreen() {
     }
     //start motion
     const startMotion = () => {
+        if (endGame) {
+            clearTimeout(gameRunner)
+        }
         if (!showButton) {
-            checkDirection()
             checkHead()
             setReRender(!reRender)
         }
     }
     //create movement interval
-    useInterval(startMotion, 1000)
+    let gameRunner = useInterval(startMotion, 500)
     //start game or pause game
     const startPauseGame = () => {
         setShowButton(!showButton)
     }
-    //check direction and move snake based on that
-    function checkDirection() {
+    //check direction and move snake based on that, end game if is to hit edge of board
+    function moveSnake(grow) {
         let newSnake = snake
         switch (direction) {
             case (0):
+                if (snake[0][1] === 0) {
+                    setEndGame(true)
+                    break
+                }
                 newSnake.unshift([snake[0][0], snake[0][1] - 1])
-                newSnake.pop()
+                if (!grow) { newSnake.pop() }
                 setSnake(newSnake)
                 break
             case (1):
+                if (snake[0][0] === 0) {
+                    setEndGame(true)
+                    break
+                }
                 newSnake.unshift([snake[0][0] - 1, snake[0][1]])
-                newSnake.pop()
+                if (!grow) { newSnake.pop() }
                 setSnake(newSnake)
                 break
             case (2):
+                if (snake[0][1] === 19) {
+                    setEndGame(true)
+                    break
+                }
                 newSnake.unshift([snake[0][0], snake[0][1] + 1])
-                newSnake.pop()
+                if (!grow) { newSnake.pop() }
                 setSnake(newSnake)
                 break
             case (3):
+                if (snake[0][0] === 19) {
+                    setEndGame(true)
+                    break
+                }
                 newSnake.unshift([snake[0][0] + 1, snake[0][1]])
-                newSnake.pop()
+                if (!grow) { newSnake.pop() }
                 setSnake(newSnake)
                 break
         }
     }
-    //
+    //see if head and food are same square, if so, pass to check direction whether or not to grow snake. end game if to move into snake
     const checkHead = () => {
-
+        if (snake[0][0] === food[0] && snake[0][1] === food[1]) {
+            moveSnake(true)
+            changeSquare()
+        }
+        else if (snake.filter(snakeBit => {
+            return snakeBit[0] === snake[0][0] && snakeBit[1] === snake[0][1]
+        }).length > 1) {
+            setEndGame(true)
+        }
+        else {
+            moveSnake(false)
+        }
     }
     return (
         <View style={GameScreenStyle.container}>
-            {showButton ?
-                <TouchableOpacity onPress={startPauseGame}>
-                    <Text style={GameScreenStyle.button}>Start Game</Text>
-                </TouchableOpacity>
+            {!endGame ?
+                <View style={GameScreenStyle.container}>
+                    {
+                        showButton ?
+                            <TouchableOpacity onPress={startPauseGame}>
+                                < Text style={GameScreenStyle.button}>Start Game</Text>
+                            </TouchableOpacity >
+                            :
+                            <TouchableOpacity onPress={startPauseGame}>
+                                <Text style={GameScreenStyle.button}>Pause</Text>
+                            </TouchableOpacity>
+                    }
+                    <Board reRender={reRender} food={food} snake={snake} />
+                    <View style={ButtonStyle.buttonContainer}>
+                        <Button color='green' style={ButtonStyle.button}
+                            onPress={() => {
+                                setDirection(0);
+                            }}
+                            title="^"
+                        />
+                        <Button color='green' style={ButtonStyle.button}
+                            onPress={() => {
+                                setDirection(3);
+                            }}
+                            title=">"
+                        />
+                        <Button color='green' style={ButtonStyle.button}
+                            onPress={() => {
+                                setDirection(1);
+                            }}
+                            title="<"
+                        />
+                        <Button color='green' style={ButtonStyle.button}
+                            onPress={() => {
+                                setDirection(2);
+                            }}
+                            title="V"
+                        />
+                    </View>
+                </View>
                 :
-                <TouchableOpacity onPress={startPauseGame}>
-                    <Text style={GameScreenStyle.button}>Pause</Text>
-                </TouchableOpacity>
+                <View style={GameScreenStyle.container}>
+                    <Text style={GameScreenStyle.button}>You Lose!</Text>
+                </View>
             }
-            <Board reRender = {reRender} food={food} snake={snake} />
-            <View style={ButtonStyle.buttonContainer}>
-                <Button color='green' style={ButtonStyle.button}
-                    onPress={() => {
-                        setDirection(0);
-                    }}
-                    title="^"
-                />
-                <Button color='green' style={ButtonStyle.button}
-                    onPress={() => {
-                        setDirection(3);
-                    }}
-                    title=">"
-                />
-                <Button color='green' style={ButtonStyle.button}
-                    onPress={() => {
-                        setDirection(1);
-                    }}
-                    title="<"
-                />
-                <Button color='green' style={ButtonStyle.button}
-                    onPress={() => {
-                        setDirection(2);
-                    }}
-                    title="V"
-                />
-            </View>
+
         </View >
     )
 }

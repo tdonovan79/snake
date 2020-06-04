@@ -6,7 +6,10 @@ const ButtonStyle = StyleSheet.create({
         flexDirection:'row',
     },
     button: {
-        flexDirection:'row'
+        flexDirection:'row',
+        height: 40,
+        width: 40
+
     }
 });
 export {ButtonStyle}

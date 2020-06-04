@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import useInterval from 'react-useinterval';
-import { View, TouchableOpacity, Text } from 'react-native'
+import { View, TouchableOpacity, Text, Button } from 'react-native'
 import { GameScreenStyle } from '../styles/GameScreenStyle.js'
 import Board from './Board.js'
+import {ButtonStyle} from '../styles/ButtonStyle.js'
 
 
 export default function GameScreen() {
     const [snake, setSnake] = useState([])
     const [food, setFood] = useState([])
     const [showButton, setShowButton] = useState(true)
-    const [direction, setDirection] = useState(3) //0 - left 1 - up 2 - right 3 - down
+    const [direction, setDirection] = useState(3) //0 - up 1 - left 2 - down 3 - right
     const [endGame, setEndGame] = useState(false)
 
     useEffect(() => {
@@ -32,7 +33,7 @@ export default function GameScreen() {
     }
     //start motion
     const startMotion = () => {
-        if(!showButton){
+        if (!showButton) {
             checkDirection()
             checkHead()
         }
@@ -62,7 +63,6 @@ export default function GameScreen() {
                 break
             case (3):
                 newSnake = [[snake[0][0] + 1, snake[0][1]]]
-                console.log(newSnake, "newSnake", snake, "snake")
                 setSnake(newSnake)
                 break
         }
@@ -81,6 +81,32 @@ export default function GameScreen() {
                 <Text></Text>
             }
             <Board food={food} snake={snake} />
-        </View>
+            <View style={ButtonStyle.buttonContainer}>
+                <Button color='green' style={ButtonStyle.button}
+                    onPress={() => {
+                        setDirection(0);
+                    }}
+                    title="^"
+                />
+                <Button color='green' style={ButtonStyle.button}
+                    onPress={() => {
+                        setDirection(3);
+                    }}
+                    title=">"
+                />
+                <Button color='green' style={ButtonStyle.button}
+                    onPress={() => {
+                        setDirection(1);
+                    }}
+                    title="<"
+                />
+                <Button color='green' style={ButtonStyle.button}
+                    onPress={() => {
+                        setDirection(2);
+                    }}
+                    title="V"
+                />
+            </View>
+        </View >
     )
 }

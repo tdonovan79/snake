@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { View, Text } from 'react-native'
 import {BoardStyle} from '../styles/BoardStyle.js'
 
-export default function Board({food, snake}) {
+export default function Board({food, snake, reRender}) {
     const colors = ['red', 'black', 'green']
     const [board, setBoard] = useState([])
 
     useEffect(() => {
+        console.log(snake, "board")
         let newBoard = new Array(20)
         //generate board with food
         for (let i = 0; i < newBoard.length; i++) {
@@ -20,14 +21,14 @@ export default function Board({food, snake}) {
             newBoard[snake[i][0]][snake[i][1]] = 2
         }
         setBoard(newBoard)
-    }, [food, snake])
+    }, [food, snake, reRender])
     return (
         <View style = {BoardStyle.board}>
             {board.map((row) => {
                 return (
                     <View>
                         {row.map((square) => {
-                            return <View 
+                            return <View
                                 style={{...BoardStyle.square, backgroundColor: colors[square]}}
                             />
                         })}

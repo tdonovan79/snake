@@ -12,6 +12,7 @@ export default function GameScreen() {
     const [showButton, setShowButton] = useState(true)
     const [direction, setDirection] = useState(3) //0 - up 1 - left 2 - down 3 - right
     const [endGame, setEndGame] = useState(false)
+    const [reRender, setReRender] = useState(false)
 
     useEffect(() => {
         snakeStart()
@@ -36,33 +37,37 @@ export default function GameScreen() {
         if (!showButton) {
             checkDirection()
             checkHead()
+            setReRender(!reRender)
         }
-        // setSnake([3, 3])
     }
-    //start game
-    const startGame = () => {
+    //create movement interval
+    useInterval(startMotion, 1000)
+    //start game or pause game
+    const startPauseGame = () => {
         setShowButton(!showButton)
-        // checkDirection()
     }
-    useInterval(startMotion, 2000)
     //check direction and move snake based on that
     function checkDirection() {
-        let newSnake
+        let newSnake = snake
         switch (direction) {
             case (0):
-                newSnake = [[snake[0][0], snake[0][1] - 1]]
+                newSnake.unshift([snake[0][0], snake[0][1] - 1])
+                newSnake.pop()
                 setSnake(newSnake)
                 break
             case (1):
-                newSnake = [[snake[0][0] - 1, snake[0][1]]]
+                newSnake.unshift([snake[0][0] - 1, snake[0][1]])
+                newSnake.pop()
                 setSnake(newSnake)
                 break
             case (2):
-                newSnake = [[snake[0][0], snake[0][1] + 1]]
+                newSnake.unshift([snake[0][0], snake[0][1] + 1])
+                newSnake.pop()
                 setSnake(newSnake)
                 break
             case (3):
-                newSnake = [[snake[0][0] + 1, snake[0][1]]]
+                newSnake.unshift([snake[0][0] + 1, snake[0][1]])
+                newSnake.pop()
                 setSnake(newSnake)
                 break
         }
@@ -74,13 +79,15 @@ export default function GameScreen() {
     return (
         <View style={GameScreenStyle.container}>
             {showButton ?
-                <TouchableOpacity onPress={startGame}>
+                <TouchableOpacity onPress={startPauseGame}>
                     <Text style={GameScreenStyle.button}>Start Game</Text>
                 </TouchableOpacity>
                 :
-                <Text></Text>
+                <TouchableOpacity onPress={startPauseGame}>
+                    <Text style={GameScreenStyle.button}>Pause</Text>
+                </TouchableOpacity>
             }
-            <Board food={food} snake={snake} />
+            <Board reRender = {reRender} food={food} snake={snake} />
             <View style={ButtonStyle.buttonContainer}>
                 <Button color='green' style={ButtonStyle.button}
                     onPress={() => {

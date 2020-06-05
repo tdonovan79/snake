@@ -121,30 +121,34 @@ export default function GameScreen() {
                     }
                     <Board reRender={reRender} food={food} snake={snake} />
                     <View style={ButtonStyle.buttonContainer}>
-                        <Button color='green' style={ButtonStyle.button}
+                        <TouchableOpacity style={ButtonStyle.button}
                             onPress={() => {
-                                setDirection(0);
-                            }}
-                            title="^"
-                        />
-                        <Button color='green' style={ButtonStyle.button}
+                                //if snake is not going opposite direction, or snakes length === 1, change direction
+                                if (direction !== 2 || snake.length === 1) { setDirection(0) }
+                            }}>
+                            <Text style= {ButtonStyle.buttonText}>^</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={ButtonStyle.button}
                             onPress={() => {
-                                setDirection(3);
-                            }}
-                            title=">"
-                        />
-                        <Button color='green' style={ButtonStyle.button}
+                                //if snake is not going opposite direction, or snakes length === 1, change direction
+                                if (direction !== 1 || snake.length === 1) { setDirection(3) }
+                            }}>
+                            <Text style= {ButtonStyle.buttonText}>{">"}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={ButtonStyle.button}
                             onPress={() => {
-                                setDirection(1);
-                            }}
-                            title="<"
-                        />
-                        <Button color='green' style={ButtonStyle.button}
+                                //if snake is not going opposite direction, or snakes length === 1, change direction
+                                if (direction !== 3 || snake.length === 1) { setDirection(1) }
+                            }}>
+                            <Text style= {ButtonStyle.buttonText}>{"<"}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={ButtonStyle.button}
                             onPress={() => {
-                                setDirection(2);
-                            }}
-                            title="V"
-                        />
+                                //if snake is not going opposite direction, or snakes length === 1, change direction
+                                if (direction !== 0 || snake.length === 1) { setDirection(2) }
+                            }}>
+                            <Text style= {ButtonStyle.buttonText}>{"v"}</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 :

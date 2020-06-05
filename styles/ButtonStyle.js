@@ -7,9 +7,19 @@ const ButtonStyle = StyleSheet.create({
     },
     button: {
         flexDirection:'row',
-        height: 40,
-        width: 40
-
+        height: 70,
+        width: 50,
+        borderColor: 'rgb(94, 235, 52)',
+        borderWidth: 10,
+        flex: 1, 
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 15
+    },
+    buttonText: {
+        color: 'white',
+        fontFamily: 'Futura',
+        fontSize: 40,
     }
 });
 export {ButtonStyle}

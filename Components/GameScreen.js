@@ -43,7 +43,7 @@ export default function GameScreen() {
         }
     }
     //create movement interval
-    let gameRunner = useInterval(startMotion, 500)
+    let gameRunner = useInterval(startMotion, 300)
     //start game or pause game
     const startPauseGame = () => {
         setShowButton(!showButton)

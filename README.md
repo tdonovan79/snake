@@ -1,5 +1,5 @@
 # Snake
-The classic mobile friendly game where a snake chases food while trying not to eat itself.
+The classic mobile friendly game where a snake chases food while trying not to eat itself.<br/>
 [Live App](https://expo.io/@tdonovan79/expo-template-bare)
 
 ## Dev Tools
